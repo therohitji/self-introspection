@@ -8,6 +8,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/co
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { ChevronLeft, ChevronRight, List, CheckCircle2, Circle, Sparkles } from "lucide-react";
+import AppNav from "@/components/AppNav";
 
 const MOTIVATIONAL_QUOTES = [
   { text: "The unexamined life is not worth living.", author: "Socrates" },
@@ -220,8 +221,11 @@ export default function Questions() {
   const progress = (answeredCount / questions.length) * 100;
 
   return (
-    <div className="min-h-screen bg-background flex">
-      {/* Sidebar - Desktop */}
+    <div className="min-h-screen bg-background flex flex-col">
+      <AppNav title="Self-Discovery Questions" backTo="/" />
+      
+      <div className="flex flex-1 overflow-hidden">
+        {/* Sidebar - Desktop */}
       <div className="hidden lg:block w-80 border-r bg-card p-6 overflow-y-auto">
         <div className="space-y-4">
           <div>
@@ -417,6 +421,7 @@ export default function Questions() {
             )}
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import AppNav from "@/components/AppNav";
 
 export default function Journal() {
   const [content, setContent] = useState("");
@@ -70,8 +71,10 @@ export default function Journal() {
   };
 
   return (
-    <div className="min-h-screen bg-background p-8">
-      <div className="max-w-4xl mx-auto space-y-6">
+    <div className="min-h-screen bg-background">
+      <AppNav title="Daily Journal" showBack={true} />
+      <div className="p-8">
+        <div className="max-w-4xl mx-auto space-y-6">
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-4xl font-bold">Journal</h1>
@@ -96,6 +99,7 @@ export default function Journal() {
             placeholder="What's on your mind today?"
             className="min-h-[500px] resize-none text-base"
           />
+        </div>
         </div>
       </div>
     </div>

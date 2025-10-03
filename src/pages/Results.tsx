@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { RadarChart } from "@/components/RadarChart";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import AppNav from "@/components/AppNav";
 
 export default function Results() {
   const [searchParams] = useSearchParams();
@@ -103,8 +104,10 @@ export default function Results() {
   const highlights = rollup.highlights || {};
 
   return (
-    <div className="min-h-screen bg-background p-8">
-      <div className="max-w-6xl mx-auto space-y-8">
+    <div className="min-h-screen bg-background">
+      <AppNav title="Your Clarity Report" backTo="/" />
+      <div className="p-8">
+        <div className="max-w-6xl mx-auto space-y-8">
         <div className="text-center">
           <h1 className="text-4xl font-bold mb-2">Your Clarity Report</h1>
           <p className="text-muted">Here's what we discovered about your self-awareness</p>
@@ -153,6 +156,7 @@ export default function Results() {
           <Button variant="outline" asChild>
             <Link to="/journal">Open Journal</Link>
           </Button>
+        </div>
         </div>
       </div>
     </div>

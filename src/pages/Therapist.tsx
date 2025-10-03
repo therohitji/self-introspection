@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import AppNav from "@/components/AppNav";
 
 type Message = {
   role: "user" | "assistant";
@@ -73,12 +74,7 @@ export default function Therapist() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <header className="border-b p-4">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-2xl font-bold">Therapist Mode</h1>
-          <p className="text-sm text-muted">Non-clinical support • Always confidential</p>
-        </div>
-      </header>
+      <AppNav title="AI Therapist" showBack={true} />
 
       <div className="flex-1 overflow-y-auto p-4">
         <div className="max-w-4xl mx-auto space-y-4">
