@@ -130,6 +130,27 @@ export default function Questions() {
         body: { response_id: response.id },
       });
 
+      // If this is the last question, finish the questionnaire
+      if (currentIndex === questions.length - 1) {
+        await supabase
+          .from("sessions")
+          .update({ completed_at: new Date().toISOString() })
+          .eq("id", sessionId);
+
+        // Trigger rollup generation in background
+        supabase.functions.invoke("generate-rollup", {
+          body: { session_id: sessionId },
+        });
+
+        toast({
+          title: "Questionnaire Complete! 🎉",
+          description: "Generating your insights...",
+        });
+
+        navigate(`/results?session=${sessionId}`);
+        return;
+      }
+
       toast({
         title: "Saved",
         description: "Your answer has been saved.",
