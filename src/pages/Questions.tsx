@@ -223,7 +223,6 @@ export default function Questions() {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <AppNav title="Self-Discovery Questions" backTo="/" />
-      
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar - Desktop */}
       <div className="hidden lg:block w-80 border-r bg-card p-6 overflow-y-auto">
