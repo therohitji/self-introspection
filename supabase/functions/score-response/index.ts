@@ -49,7 +49,12 @@ serve(async (req) => {
     });
 
     const aiData = await aiResponse.json();
-    const result = JSON.parse(aiData.choices[0].message.content);
+    let content = aiData.choices[0].message.content;
+    
+    // Strip markdown code blocks if present
+    content = content.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+    
+    const result = JSON.parse(content);
 
     const { error: scoreError } = await supabase.from("scores").upsert({
       response_id,

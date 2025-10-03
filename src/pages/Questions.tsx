@@ -7,7 +7,20 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { ChevronLeft, ChevronRight, List, CheckCircle2, Circle } from "lucide-react";
+import { ChevronLeft, ChevronRight, List, CheckCircle2, Circle, Sparkles } from "lucide-react";
+
+const MOTIVATIONAL_QUOTES = [
+  { text: "The unexamined life is not worth living.", author: "Socrates" },
+  { text: "Know thyself.", author: "Ancient Greek Aphorism" },
+  { text: "Your time is limited, don't waste it living someone else's life.", author: "Steve Jobs" },
+  { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+  { text: "Be yourself; everyone else is already taken.", author: "Oscar Wilde" },
+  { text: "The journey of a thousand miles begins with a single step.", author: "Lao Tzu" },
+  { text: "What lies behind us and what lies before us are tiny matters compared to what lies within us.", author: "Ralph Waldo Emerson" },
+  { text: "The privilege of a lifetime is to become who you truly are.", author: "Carl Jung" },
+  { text: "Don't ask what the world needs. Ask what makes you come alive, and go do it.", author: "Howard Thurman" },
+  { text: "Your vision will become clear only when you look into your heart.", author: "Carl Jung" },
+];
 
 export default function Questions() {
   const [searchParams] = useSearchParams();
@@ -19,6 +32,7 @@ export default function Questions() {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [answeredQuestions, setAnsweredQuestions] = useState<Set<string>>(new Set());
+  const [currentQuote, setCurrentQuote] = useState(MOTIVATIONAL_QUOTES[0]);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -77,6 +91,9 @@ export default function Questions() {
     };
 
     loadCurrentAnswer();
+    
+    // Change quote when question changes
+    setCurrentQuote(MOTIVATIONAL_QUOTES[currentIndex % MOTIVATIONAL_QUOTES.length]);
   }, [currentIndex, sessionId, questions]);
 
   const saveResponse = async (skipToNext = true) => {
@@ -86,12 +103,15 @@ export default function Questions() {
     try {
       const { data: response, error } = await supabase
         .from("responses")
-        .upsert({
-          session_id: sessionId,
-          question_id: questions[currentIndex].id,
-          answer_text: answer,
-          notes,
-        })
+        .upsert(
+          {
+            session_id: sessionId,
+            question_id: questions[currentIndex].id,
+            answer_text: answer,
+            notes,
+          },
+          { onConflict: "session_id,question_id" }
+        )
         .select()
         .single();
 
@@ -149,10 +169,17 @@ export default function Questions() {
         .update({ completed_at: new Date().toISOString() })
         .eq("id", sessionId);
 
+      // Trigger rollup generation in background
       supabase.functions.invoke("generate-rollup", {
         body: { session_id: sessionId },
       });
 
+      toast({
+        title: "Questionnaire Complete! 🎉",
+        description: "Generating your insights...",
+      });
+
+      // Navigate to results immediately
       navigate(`/results?session=${sessionId}`);
     } catch (error: any) {
       toast({
@@ -275,6 +302,17 @@ export default function Questions() {
             <Progress value={progress} />
           </div>
 
+          {/* Motivational Quote */}
+          <div className="bg-gradient-calm p-6 rounded-lg border border-accent/20">
+            <div className="flex items-start gap-3">
+              <Sparkles className="h-5 w-5 text-accent flex-shrink-0 mt-1" />
+              <div>
+                <p className="text-sm italic mb-1">"{currentQuote.text}"</p>
+                <p className="text-xs text-muted">— {currentQuote.author}</p>
+              </div>
+            </div>
+          </div>
+
           {/* Question Card */}
           <div className="bg-card p-8 rounded-lg shadow-soft space-y-6">
             <div className="flex items-start justify-between gap-4">
@@ -349,10 +387,10 @@ export default function Questions() {
             {answeredCount >= 10 && (
               <div className="pt-4 border-t">
                 <p className="text-sm text-muted mb-3">
-                  You've answered {answeredCount} questions. You can finish anytime!
+                  You've answered {answeredCount} questions. {answeredCount >= 50 ? "Amazing work! 🎉" : "You can finish anytime or continue to answer all 50."}
                 </p>
-                <Button onClick={finishQuestionnaire} disabled={loading} variant="secondary">
-                  Finish & See Results
+                <Button onClick={finishQuestionnaire} disabled={loading} variant="secondary" className="w-full">
+                  {answeredCount >= 50 ? "🎉 Complete Journey & See Results" : "Finish & See Results"}
                 </Button>
               </div>
             )}

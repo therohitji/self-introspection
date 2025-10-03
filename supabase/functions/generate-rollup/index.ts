@@ -63,7 +63,12 @@ serve(async (req) => {
     });
 
     const aiData = await aiResponse.json();
-    const highlights = JSON.parse(aiData.choices[0].message.content);
+    let content = aiData.choices[0].message.content;
+    
+    // Strip markdown code blocks if present
+    content = content.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+    
+    const highlights = JSON.parse(content);
 
     const { error: rollupError } = await supabase.from("rollups").upsert({
       session_id,

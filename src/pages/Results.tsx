@@ -22,13 +22,35 @@ export default function Results() {
       if (!sessionId) return;
 
       try {
-        const { data, error } = await supabase
+        let { data, error } = await supabase
           .from("rollups")
           .select("*")
           .eq("session_id", sessionId)
-          .single();
+          .maybeSingle();
 
-        if (error) throw error;
+        if (error && error.code !== "PGRST116") throw error;
+
+        // If no rollup yet, wait a bit and try again (AI might still be processing)
+        if (!data) {
+          toast({
+            title: "Generating insights...",
+            description: "This will take just a moment.",
+          });
+
+          // Wait 3 seconds and try again
+          await new Promise((resolve) => setTimeout(resolve, 3000));
+
+          const retry = await supabase
+            .from("rollups")
+            .select("*")
+            .eq("session_id", sessionId)
+            .maybeSingle();
+
+          if (!retry.error) {
+            data = retry.data;
+          }
+        }
+
         setRollup(data);
 
         await supabase.from("events").insert({
@@ -49,8 +71,26 @@ export default function Results() {
     loadResults();
   }, [sessionId, navigate, toast]);
 
-  if (loading) return <div className="min-h-screen bg-background flex items-center justify-center">Loading your insights...</div>;
-  if (!rollup) return <div className="min-h-screen bg-background flex items-center justify-center">No results found</div>;
+  if (loading) return (
+    <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="text-center space-y-4">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent mx-auto"></div>
+        <p className="text-lg">Analyzing your insights...</p>
+      </div>
+    </div>
+  );
+  
+  if (!rollup) return (
+    <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="text-center space-y-4 max-w-md">
+        <h2 className="text-2xl font-bold">Results generating...</h2>
+        <p className="text-muted">
+          Your insights are being analyzed. This can take a minute. Try refreshing the page in a moment.
+        </p>
+        <Button onClick={() => window.location.reload()}>Refresh Page</Button>
+      </div>
+    </div>
+  );
 
   const scores = {
     clarity: rollup.clarity || 0,
