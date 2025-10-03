@@ -19,9 +19,11 @@ const Index = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
-            <Button size="lg" className="text-lg px-8 py-6 shadow-medium hover:shadow-large transition-all">
-              Begin now
-              <ArrowRight className="ml-2 h-5 w-5" />
+            <Button size="lg" className="text-lg px-8 py-6 shadow-medium hover:shadow-large transition-all" asChild>
+              <Link to="/auth">
+                Begin now
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
             </Button>
             <Button size="lg" variant="outline" className="text-lg px-8 py-6">
               See a sample report
@@ -108,9 +110,11 @@ const Index = () => {
           <p className="text-xl text-primary-foreground/80">
             Start your journey to self-awareness.
           </p>
-          <Button size="lg" variant="secondary" className="text-lg px-8 py-6 mt-6">
-            Begin your introspection
-            <ArrowRight className="ml-2 h-5 w-5" />
+          <Button size="lg" variant="secondary" className="text-lg px-8 py-6 mt-6" asChild>
+            <Link to="/auth">
+              Begin your introspection
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Link>
           </Button>
         </div>
       </section>
