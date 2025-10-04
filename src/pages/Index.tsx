@@ -1,12 +1,25 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Brain, LineChart, MessageCircle } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Index = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen">
+      {/* Navigation Bar */}
+      <nav className="fixed top-0 left-0 right-0 z-50 border-b bg-card/50 backdrop-blur-sm">
+        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+          <h1 className="text-xl font-semibold">Self-Reflect</h1>
+          <Button variant="outline" onClick={() => navigate('/therapist')}>
+            <MessageCircle className="h-4 w-4 mr-2" />
+            Talk to Therapist
+          </Button>
+        </div>
+      </nav>
+
       {/* Hero Section */}
-      <section className="relative px-6 pt-20 pb-32 md:pt-32 md:pb-40">
+      <section className="relative px-6 pt-20 pb-32 md:pt-32 md:pb-40 mt-16">
         <div className="max-w-4xl mx-auto text-center space-y-8 animate-fade-in">
           <h1 className="text-5xl md:text-7xl font-bold tracking-tight">
             Know Yourself.
