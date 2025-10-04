@@ -10,7 +10,7 @@ const Index = () => {
       {/* Navigation Bar */}
       <nav className="fixed top-0 left-0 right-0 z-50 border-b bg-card/50 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <h1 className="text-xl font-semibold">Self-Reflect</h1>
+          <h1 className="text-xl font-semibold">Self Introspection</h1>
           <Button variant="outline" onClick={() => navigate('/therapist')}>
             <MessageCircle className="h-4 w-4 mr-2" />
             Talk to Therapist
