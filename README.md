@@ -1,73 +1,43 @@
-# Welcome to your Lovable project
+<!-- presentation:start -->
+<p align="center"><img src="https://raw.githubusercontent.com/therohitji/therohitji/main/repos/self-introspection.svg" width="100%" alt="Introspection OS. 50 deep questions, AI clarity scores across 5 dimensions, and a journal. 2,987 Lines of code, 94 Files, 17 Commits, 5 Languages."></p>
 
-## Project info
+## What it is
 
-**URL**: https://lovable.dev/projects/ac23cc22-522b-46fe-922a-6cc8d317d06a
+A self-discovery app that scores your answers and tracks them over time.
 
-## How can I edit this code?
+## Why it exists
 
-There are several ways of editing your application.
+Know yourself, then decide.
 
-**Use Lovable**
+## How it works
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/ac23cc22-522b-46fe-922a-6cc8d317d06a) and start prompting.
+```mermaid
+flowchart LR
+  n0["Onboarding"]
+  n1["50 questions"]
+  n2["AI scoring"]
+  n3["Radar results"]
+  n4["Journal and chat"]
+  n0 --> n1 --> n2 --> n3 --> n4
+```
 
-Changes made via Lovable will be committed automatically to this repo.
+## What's inside
 
-**Use your preferred IDE**
+| Part | What |
+|---|---|
+| **AI** | Answer scoring, rollups, reflective chat |
+| **Screens** | Questions, Results, Journal, Onboarding |
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+**Stack:** React, TypeScript, Supabase, Edge Functions
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## Run it
 
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```bash
+npm install
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+---
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/ac23cc22-522b-46fe-922a-6cc8d317d06a) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Built by [Rohit Swerashi](https://github.com/therohitji), Founder & CEO of [GeniOS](https://thegenios.com).
+<!-- presentation:end -->
